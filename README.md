@@ -29,3 +29,15 @@ cd MayHoc\bai01_hoi_quy
 ```
 
 Thay `b1_doc_du_lieu.py` bằng tên file từ `b2` đến `b7` để chạy bước tương ứng.
+
+## Bài tập mục 9
+
+Sáu bài tập nằm trong `MayHoc/bai01_hoi_quy/baitap01/`. Từ thư mục
+`MayHoc/bai01_hoi_quy`, chạy từng bài bằng:
+
+```powershell
+& '..\..\.venv\Scripts\python.exe' baitap01\bai1.py
+```
+
+Thay `bai1.py` bằng `bai2.py` đến `bai6.py`. Bài 2 tạo biểu đồ
+`baitap01/bai2.png`.
