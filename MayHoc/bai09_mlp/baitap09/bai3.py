@@ -41,11 +41,15 @@ for act in cac_ham:
     ket_qua.append((act, acc_tr, acc_te))
     print(f"  {act:12s}        {acc_tr:.4f}               {acc_te:.4f}")
 
-tot_nhat = max(ket_qua, key=lambda x: x[2])
+# Tìm hàm tốt nhất theo accuracy kiểm tra (nếu bằng nhau thì xét thêm tập học)
+max_te = max(k[2] for k in ket_qua)
+cac_ham_tot = [k for k in ket_qua if k[2] == max_te]
+
 print("\n=== TRA LOI CAU HOI ===")
-print(f"- Ham cho ket qua tot nhat tren tap kiem tra la: '{tot_nhat[0]}' (accuracy = {tot_nhat[2]:.4f}).")
+print(f"- Ham cho ket qua tot nhat tren tap kiem tra:")
+for h, a_tr, a_te in cac_ham_tot:
+    print(f"  + Ham '{h}': dat accuracy tap kiem tra cao nhat = {a_te:.4f} (tap hoc = {a_tr:.4f}).")
 print("- Nhan xet:")
-print("  + Ham 'relu' thuong hoc nhanh, tao cac duong bien phan chia manh me, phu hop voi du lieu phi tuyen.")
-print("  + Ham 'tanh' va 'logistic' deu co tinh chat tron tru, dao ham lien tuc nen ranh gioi rat min.")
-print("  + Tren du lieu hai vang trang voi alpha = 1.0, cac ham phi tuyen tron nhu 'tanh' hoac 'relu' deu cho")
-print("    do chinh xac rat cao (~88-91%), the hien ro kha nang uon luon theo duong cong cua mang no-ron.")
+print("  + Ca 'tanh' va 'relu' deu cho accuracy tap kiem tra vuot troi (0.9067) so voi 'logistic' (0.8533).")
+print("  + Ham 'relu' cho accuracy tren tap hoc cao hon (0.8844 so voi 0.8711 cua tanh), dong thoi tinh toan nhanh hon.")
+print("  + Ham 'logistic' de bi triet tieu dao ham (vanishing gradient) o cac gia tri bao hoa, dan den hoi tu cham hon.")

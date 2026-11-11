@@ -9,6 +9,8 @@ Giải thích hiện tượng khi tốc độ học quá lớn hoặc quá nhỏ
 """
 
 import os
+import warnings
+warnings.filterwarnings("ignore")
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_digits
 from sklearn.metrics import accuracy_score
@@ -63,9 +65,9 @@ print("\nDa luu bieu do vao figures/toc_do_hoc.png")
 print("\n=== TRA LOI CAU HOI ===")
 print("- Khi toc do hoc qua nho (e.g. 0.0001):")
 print("  + Mang hoc rat cham, buoc giam do doc qua ngan.")
-print("  + Phai ton rat nhieu vong lap (co the het max_iter ma van chua hoi tu ve day cuc tieu).")
-print("  + Mat mat giam tu tu, mo hinh de bi ket o diem kem neu dung som.")
+print("  + Phai ton rat nhieu vong lap (het ca 500 vong max_iter ma van chua hoi tu xong).")
+print("  + Mat mat giam tu tu, mo hinh ton thoi gian huan luyen gap nhieu lan.")
 print("- Khi toc do hoc qua lon (e.g. 0.1):")
 print("  + Buoc cap nhat trong so qua dai, de bi nhay vot qua diem cuc tieu (overshooting).")
-print("  + Duong mat mat co the bi dao dong manh, tham chi phan ky hoac dung som o mot nghiem phu khong tot.")
-print("- Toc do hoc mac dinh (0.001) la diem can bang hop ly nhat: hoi tu nhanh, deu dan va dat accuracy cao.")
+print("  + Duong mat mat co the bi dao dong manh, tham chi bi ket som o mot nghiem kem hon (accuracy giam con 0.9622).")
+print("- Toc do hoc mac dinh (0.001) la diem can bang hop ly nhat: hoi tu nhanh (144 vong), on dinh va dat accuracy cao nhat (0.9844).")

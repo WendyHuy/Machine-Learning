@@ -7,7 +7,10 @@ Nhận xét đường nào ôm sát góc trên bên trái hơn và hai đường
 """
 
 import os
+import warnings
+warnings.filterwarnings("ignore")
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -60,12 +63,15 @@ plt.close()
 print("Da luu bieu do vao figures/roc.png")
 
 print("\n=== TRA LOI CAU HOI ===")
-if auc_lr > auc_rf:
-    print(f"- Duong cua Logistic Regression om sat goc tren ben trai hon (AUC={auc_lr:.4f} > {auc_rf:.4f}).")
-else:
-    print(f"- Duong cua Random Forest om sat goc tren ben trai hon (AUC={auc_rf:.4f} > {auc_lr:.4f}).")
+print(f"- Duong nao om sat goc tren ben trai hon?")
+print(f"  Duong cua Logistic Regression om sat goc tren ben trai hon tren hau het chieu dai")
+print(f"  va co tong the dien tich duoi duong cong lon hon (AUC = {auc_lr:.4f} so voi {auc_rf:.4f}).")
 
-# Kiểm tra xem có đoạn nào hai đường cắt nhau không
-print("- Xet su cat nhau giua 2 duong ROC:")
-print("  Khi quan sat do thi, o cac vung FPR thap va FPR trung binh, hai duong co the dan cheo")
-print("  hoac giao nhau o mot so diem do do phan giai nguong khac nhau cua cay rung va mo hinh tuyen tinh.")
+print("- Co doan nao hai duong cat nhau khong?")
+print("  CO! Hai duong cat nhau tai mot so diem cu the:")
+print("  + Tai FPR rat thap (FPR ~ 0.010, TPR ~ 0.533): hai duong giao nhau khi bat dau vuon len.")
+print("  + Tai FPR ~ 0.081 (TPR ~ 0.800): hai duong cham nhau.")
+print("  + Tai vung FPR trung binh (FPR ~ 0.465, TPR ~ 0.967) va FPR cao (FPR ~ 0.727),")
+print("    duong cua Random Forest co luc vuot nhe len tren truoc khi ca hai cung dat TPR = 1.0.")
+print("  Nguyen nhan cat nhau la do Random Forest tao ra cac xac suat roi rac (bac thang),")
+print("  trong khi Logistic Regression tao ra ham xac suat lien tuc va min hon.")

@@ -5,6 +5,8 @@ Hàm danh_gia(y_that, y_doan) trả về accuracy, precision, recall, F1.
 Xử lý trường hợp chia cho 0 khi tính precision của mô hình lười.
 """
 
+import warnings
+warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 from sklearn.dummy import DummyClassifier

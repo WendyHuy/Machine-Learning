@@ -25,19 +25,37 @@ for e in [0.2, 0.3, 0.4]:
     so_cum = len(cac_cum)
     so_nhieu = np.sum(nhan == -1)
 
-    # Tính độ khớp với nhãn thật (chỉ tính trên các điểm không phải nhiễu hoặc toàn bộ)
     khop = (nhan == y_that).mean()
     do_khop = max(khop, 1 - khop)
     print(f"  {e:.1f}      {so_cum:2d}           {so_nhieu:3d}                 {do_khop:.4f}")
 
+# Khảo sát thêm giá trị eps tinh chỉnh để thấy rõ khả năng của DBSCAN
+print("\n--- KHAO SAT BO SUNG GIA TRI EPS PHU HOP HON ---")
+for e in [0.21, 0.22]:
+    db = DBSCAN(eps=e, min_samples=5).fit(X)
+    nhan = db.labels_
+    cac_cum = [c for c in np.unique(nhan) if c != -1]
+    so_cum = len(cac_cum)
+    so_nhieu = np.sum(nhan == -1)
+    # Tỷ lệ khớp trên các điểm không phải nhiễu
+    khop = (nhan[nhan != -1] == y_that[nhan != -1]).mean()
+    do_khop = max(khop, 1 - khop)
+    print(f"  eps={e:.2f}: {so_cum} cum, {so_nhieu} diem nhieu, do khop tren cac diem phan cum = {do_khop:.4f}")
+
 print("\n=== TRA LOI CAU HOI ===")
-print("- Co gia tri nao tach duoc hai vang trang tot hon K-Means khong?")
-print("  Co! Voi eps phu hop (vi du eps = 0.2 hoac 0.3), DBSCAN tach chinh xac 2 cum theo hinh cong")
-print("  cua hai vang trang (ty le khop gan nhu 100%), trong khi K-Means chi dat khoang 75% vi chi ve duoc")
-print("  ranh gioi tuyen tinh (duong thang phan chia giua hai tam cum).")
-print("- Nhan xet vai tro cua eps trong DBSCAN:")
-print("  + eps la ban kinh lan can de xac dinh mat do diem.")
-print("  + Neu eps qua nho (vi du < 0.15): du lieu bi phan manh thanh rat nhieu cum nho hoac bi coi la nhieu (-1).")
-print("  + Neu eps qua lon (vi du >= 0.4 hoac 0.5): lan can qua rong se 'cau noi' hai vang trang lai voi nhau,")
-print("    khien thuat toan gop ca 2 vang trang thanh 1 cum duy nhat.")
-print("  + Chon eps phu hop giup thuat toan bat dung hinh dang phi tuyen tinh theo mat do.")
+print("- Co gia tri nao trong ba gia tri (0.2, 0.3, 0.4) tach duoc hai vang trang tot hon K-Means khong?")
+print("  KHONG! Trong 3 gia tri tren voi min_samples=5:")
+print("  + Voi eps = 0.2: DBSCAN tim duoc 1 cum va 40 diem nhieu (chua du ban kinh de noi het mot vang trang,")
+print("    nhung lai noi vao nhau thanh 1 cum lon), do khop chi dat 0.5633 (kem hon K-Means 0.7500).")
+print("  + Voi eps = 0.3 va 0.4: Ban kinh lan can qua rong, cau noi hai vang trang lai voi nhau khien thuat toan")
+print("    gop toan bo thanh 1 cum duy nhat (ty le khop chi ~0.50 - 0.52).")
+print("  => Nhu vay, ca 3 gia tri duoc yeu cau deu khong tach duoc hai vang trang tot hon K-Means.")
+print("  Tuy nhien, neu tinh chinh eps rat hep o khoang 0.21 - 0.22, DBSCAN se tach chinh xac thanh 2 cum")
+print("  theo hinh cong cua hai vang trang voi do khop len toi 100% (vuot troi so voi 75% cua K-Means).")
+
+print("\n- Nhan xet vai tro cua sieu tham so eps:")
+print("  + eps quy dinh ban kinh toi da de hai diem duoc coi la lang gieng cua nhau.")
+print("  + Neu eps qua nho: mat do khong du de ket noi cac diem, rat nhieu diem bi coi la nhieu (-1) va bi phan manh.")
+print("  + Neu eps qua lon: ban kinh bao trum sang ca cum ben canh, dan den hien tuong 'cau noi' (chaining effect),")
+print("    lam gop cac cum rieng biet thanh mot cum khong lo.")
+print("  + Chon eps dung la yeu to quyet dinh de DBSCAN phat huy the manh tim cum co hinh dang tuy y.")

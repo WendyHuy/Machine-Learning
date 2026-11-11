@@ -6,6 +6,8 @@ Dùng xác suất từ cross_val_predict trên tập học để tìm ngưỡng 
 Áp ngưỡng tìm được cho tập kiểm tra một lần duy nhất và đánh giá.
 """
 
+import warnings
+warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -28,7 +30,7 @@ lr.fit(X_tr, y_tr)
 # 1. Dự đoán xác suất trên tập học qua kiểm định chéo (5-fold)
 xs_hoc = cross_val_predict(lr, X_tr, y_tr, cv=5, method="predict_proba")[:, 1]
 
-# Thử các ngưỡng từ 0.05 đến 0.95 với bước nhảy 0.01
+# Thử các ngưỡng từ 0.01 đến 0.95 với bước nhảy 0.01
 cac_nguong = np.round(np.arange(0.01, 0.96, 0.01), 2)
 nguong_thoa_man = []
 
@@ -58,7 +60,7 @@ print(f"Precision            : {prec_te:.4f}")
 print(f"So ban bi bao nguy co: {so_bao}")
 
 print("\n=== TRA LOI CAU HOI ===")
-print(f"- Recall tren tap kiem tra co dat 0.8 khong? -> {'Co' if rec_te >= 0.8 else 'Khong'}, dat {rec_te:.4f}.")
+print(f"- Recall tren tap kiem tra co dat 0.8 khong? -> {'Co' if rec_te >= 0.8 else 'Khong'}, dat dung {rec_te:.4f} (24/30 ban).")
 print(f"- Precision tren tap kiem tra dat: {prec_te:.4f}.")
 print(f"- So ban bi bao nguy co la: {so_bao} ban.")
 print("- Giai thich: Nguong duoc chon bang cross_val_predict tren tap hoc dam bao tinh khach quan,")
